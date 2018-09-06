@@ -1,0 +1,28 @@
+{
+  "name": "express-demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "connect-history-api-fallback": "^1.5.0",
+    "express": "^4.16.3",
+    "http-proxy-middleware": "^0.19.0",
+    "multer": "^1.3.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jiangzhenfei/h5History.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jiangzhenfei/h5History/issues"
+  },
+  "homepage": "https://github.com/jiangzhenfei/h5History#readme"
+}

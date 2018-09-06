@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <h1>index</h1>
+    <button class='home'>home</button>
+    <button class='class'>class</button>
+    <div id="app"></div>
+
+    <script>
+        function ajax(url){
+            //步骤一:创建异步对象
+            var ajax = new XMLHttpRequest();
+            //步骤二:设置请求的url参数,参数一是请求的类型,参数二是请求的url,可以带参数,动态的传递参数starName到服务端
+            ajax.open('get',url);
+            //步骤三:发送请求
+            ajax.send();
+            //步骤四:注册事件 onreadystatechange 状态改变就会调用
+            ajax.onreadystatechange = function () {
+                if (ajax.readyState==4 &&ajax.status==200) {
+                    //步骤五 如果能够进到这个判断 说明 数据 完美的回来了,并且请求的页面是存在的
+            　　　　 //输入相应的内容
+                    document.querySelector('#app').innerHTML = ajax.responseText
+            　　}
+            }
+        }
+        //路由
+        let route = {
+            home:{
+                name:'home',
+                url:'./home.html',
+                des:'home page'
+            },
+            class:{
+                name:'class',
+                url:'./class.html',
+                des:'class page'
+            }
+        }
+
+        var pushState = history.pushState;   // 存储原生 replaceState
+        history.pushState = function(state, param) {     // 改写 replaceState
+            var urlName = arguments[2];
+            var url = route[urlName].url;
+            ajax(url)
+            return pushState.apply(history, arguments);    // 调用原生的 replaceState
+        };
+        //前进后退的监听
+        window.addEventListener("popstate", function(e){
+            console.log(e)
+            var urlName = e.state.name;
+            var url = route[urlName].url;
+            ajax(url)
+        }, false)
+        //按钮点击
+        document.querySelector('.home').onclick = function(){
+            var name = 'home';
+            var routeObj = route[ name ]
+            var stateObj = { name: routeObj.name };
+            var desc = routeObj.desc
+            var path = routeObj.name
+            history.pushState(stateObj, desc, path);
+        }
+        document.querySelector('.class').onclick = function(){
+            var name = 'class';
+            var routeObj = route[ name ]
+            var stateObj = { name: routeObj.name };
+            var desc = routeObj.desc
+            var path = routeObj.name
+            history.pushState(stateObj, desc, path);
+        }
+
+        function initRoute(){
+            if( history.state){
+                var name = history.state.name;
+                var routeObj = route[ name ]
+                var stateObj = { name: routeObj.name };
+                var desc = routeObj.desc
+                var path = routeObj.name
+                history.pushState(stateObj, desc, path);
+            }
+        }
+        initRoute()
+    </script>
+</body>
+</html>
